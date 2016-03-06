@@ -1,0 +1,40 @@
+<div class="form-block">
+
+	<div class="block-header">
+		<div class="block-name"><?php echo $this->lng_m['settings']; ?></div>
+	</div>
+
+	<div class="block-line"></div>
+
+	<div>
+		<form class="form-horizontal" method="POST">
+
+			<div class="control-group">
+				<label class="control-label" for="inputComments"><?php echo $this->lng_m['use_comments']; ?></label>
+				<div class="controls">
+					<select name="use_comments" id="inputComments">
+						<option value="0"><?php echo $this->lng['no']; ?></option>
+						<option value="1" <?php echo $data['COMMENTS']; ?>><?php echo $this->lng['yes']; ?></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="inputUOP"><?php echo $this->lng_m['users_on_page']; ?></label>
+				<div class="controls">
+					<input type="text" name="rop_users" id="inputUOP" value="<?php echo $this->cfg_m['users_on_page']; ?>" placeholder="<?php echo $this->lng_m['users_on_page']; ?>" required>
+				</div>
+			</div>
+
+			<div class="control-group">
+				<label class="control-label" for="inputCOP"><?php echo $this->lng_m['comments_on_page']; ?></label>
+				<div class="controls">
+					<input type="text" name="rop_comments" id="inputCOP" value="<?php echo $this->cfg_m['comments_on_page']; ?>" placeholder="<?php echo $this->lng_m['comments_on_page']; ?>" required>
+				</div>
+			</div>
+
+			<p class="text-right"><button type="submit" class="btn"><?php echo $this->lng_m['next']; ?></button></p>
+		</form>
+	</div>
+
+</div>

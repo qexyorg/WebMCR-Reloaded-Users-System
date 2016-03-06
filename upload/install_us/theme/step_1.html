@@ -1,0 +1,34 @@
+<div class="form-block">
+
+	<div class="block-header">
+		<div class="block-name"><?php echo $this->lng_m['install_prepare']; ?></div>
+	</div>
+
+	<div class="block-line"></div>
+
+	<div>
+		<p><?php echo $this->lng_m['isn_p_msg1']; ?></p>
+		<p><?php echo $this->lng_m['isn_p_msg2']; ?></p>
+
+		<table class="table table-condensed">
+			<thead>
+				<tr>
+					<th><?php echo $this->lng_m['access_files']; ?></th>
+					<th><?php echo $this->lng_m['result_test']; ?></th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				<tr>
+					<td><?php echo $this->lng_m['read_write']; ?> | configs/modules/users.php</td>
+					<td><?php echo $data["CONFIG"]; ?></td>
+				</tr>
+			</tbody>
+		</table>
+		<form method="post">
+			<p class="text-right"><button type="submit" class="btn"><?php echo $this->lng_m['next']; ?></button></p>
+		</form>
+	</div>
+
+</div>
