@@ -66,7 +66,9 @@ class module{
 
 			$gender = (intval($json['gender'])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
 
-			$avatar = (intval($ar['is_skin'])==1) ? $login : (intval($json['gender'])==1) ? 'default_mini_female.png' : 'default_mini.png';
+			$is_girl = (intval($json['gender'])==1) ? 'default_mini_female.png' : 'default_mini.png';
+
+			$avatar = (intval($ar['is_skin'])==1) ? $login.'_mini.png' : $is_girl;
 
 			$url = BASE_URL.'?mode=users&uid='.$login;
 			$gurl = BASE_URL.'?mode=users&gid='.intval($ar['gid']);
