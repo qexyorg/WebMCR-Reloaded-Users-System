@@ -32,8 +32,10 @@ class module{
 
 		if(!empty($search)){
 			$searchstr = $this->db->safesql(urldecode($search));
-			$where .= (!empty($gid)) ? " AND " : " WHERE ";
-			$where .= "`u`.login LIKE '%$searchstr%'";
+			if(!preg_match("/[а-яА-ЯёЁ]+/iu", $searchstr)){
+				$where .= (!empty($gid)) ? " AND " : " WHERE ";
+				$where .= "`u`.login LIKE '%$searchstr%'";
+			}
 		}
 
 		$query = $this->db->query("SELECT `u`.gid, `u`.`color`, `u`.login, `u`.is_skin, `u`.is_cloak, `u`.`data`,
@@ -64,13 +66,13 @@ class module{
 
 			$gender = (intval($json['gender'])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
 
-			$avatar = (intval($ar['is_skin'])==1) ? $login : 'default';
+			$avatar = (intval($ar['is_skin'])==1) ? $login : (intval($json['gender'])==1) ? 'default_mini_female.png' : 'default_mini.png';
 
 			$url = BASE_URL.'?mode=users&uid='.$login;
 			$gurl = BASE_URL.'?mode=users&gid='.intval($ar['gid']);
 
 			$data = array(
-				'AVATAR' => UPLOAD_URL.'skins/interface/'.$avatar.'_mini.png?'.mt_rand(1000,9999),
+				'AVATAR' => UPLOAD_URL.'skins/interface/'.$avatar.'?'.mt_rand(1000,9999),
 				'LOGIN' => $this->core->colorize($login, $color, '<a href="'.$url.'" style="color: {COLOR};">{STRING}</a>'),
 				'GROUP' => $this->core->colorize($group, $gcolor, '<a href="'.$gurl.'" style="color: {COLOR};">{STRING}</a>'),
 				'URL' => $url,
@@ -98,10 +100,12 @@ class module{
 
 		if(!empty($search)){
 			$srch = urldecode($search);
-			$page .= '&search='.$this->db->HSC($srch);
-			$searchstr = $this->db->safesql($srch);
-			$sql .= (!empty($gid)) ? " AND " : " WHERE ";
-			$sql .= "login LIKE '%$searchstr%'";
+			if(!preg_match("/[а-яА-ЯёЁ]+/iu", $srch)){
+				$page .= '&search='.$this->db->HSC($srch);
+				$searchstr = $this->db->safesql($srch);
+				$sql .= (!empty($gid)) ? " AND " : " WHERE ";
+				$sql .= "login LIKE '%$searchstr%'";
+			}
 		}
 
 		$query = $this->db->query($sql);
