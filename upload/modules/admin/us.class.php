@@ -20,7 +20,7 @@ class submodule{
 
 		$this->cfg_m = $cfg;
 
-		//if(!$this->core->is_access('mod_users_adm_settings')){ $this->core->notify($this->core->lng['403'], $this->core->lng['e_403']); }
+		if(!$this->core->is_access('mod_users_adm_settings')){ $this->core->notify($this->core->lng['403'], $this->core->lng['e_403']); }
 
 		$bc = array(
 			$this->lng['mod_name'] => BASE_URL."?mode=admin",

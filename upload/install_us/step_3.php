@@ -98,6 +98,7 @@ class module{
 				$value['permissions']['mod_users_comment_del'] = ($gid==3 || $gid==2) ? true : false;
 				$value['permissions']['mod_users_comment_del_all'] = ($gid==3) ? true : false;
 				$value['permissions']['mod_adm_m_i_us'] = ($gid==3) ? true : false;
+				$value['permissions']['mod_users_adm_settings'] = ($gid==3) ? true : false;
 
 				$newperm = json_encode($value['permissions']);
 
