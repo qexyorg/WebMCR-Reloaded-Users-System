@@ -3,13 +3,13 @@
 if(!defined("MCR")){ exit("Hacking Attempt!"); }
 
 class module{
-	private $core, $db, $config, $lng, $lng_m, $user;
+	private $core, $db, $cfg, $lng, $lng_m, $user;
 
 	public function __construct($core){
 		$this->core		= $core;
 		$this->db		= $core->db;
 		$this->user		= $core->user;
-		$this->config	= $core->config;
+		$this->cfg		= $core->cfg;
 		$this->lng		= $core->lng;
 		$this->lng_m	= $core->lng_m;
 

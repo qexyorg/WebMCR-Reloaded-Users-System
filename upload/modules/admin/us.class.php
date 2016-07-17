@@ -3,22 +3,19 @@
 if(!defined("MCR")){ exit("Hacking Attempt!"); }
 
 class submodule{
-	private $core, $db, $config, $user, $lng, $cfg_m;
+	private $core, $db, $cfg, $user, $lng, $cfg_m;
 
 	public function __construct($core){
-		$this->core = $core;
-		$this->db	= $core->db;
-		$this->config = $core->config;
-		$this->user	= $core->user;
-		$this->lng	= $core->lng_m;
-
-		require_once(MCR_LANG_DIR.'users.php');
-
-		$core->lng_m = $lng;
+		$this->core		= $core;
+		$this->db		= $core->db;
+		$this->cfg		= $core->cfg;
+		$this->user		= $core->user;
+		$core->lng_m	= $core->load_language('users');
+		$this->lng		= $core->lng_m;
 
 		require_once(MCR_CONF_PATH.'modules/users.php');
 
-		$this->cfg_m = $cfg;
+		$this->cfg_m	= $cfg;
 
 		if(!$this->core->is_access('mod_users_adm_settings')){ $this->core->notify($this->core->lng['403'], $this->core->lng['e_403']); }
 
@@ -30,7 +27,7 @@ class submodule{
 		$this->core->bc = $this->core->gen_bc($bc);
 	}
 
-	private function main(){
+	public function content(){
 
 		$cfg = $this->cfg_m;
 
@@ -42,7 +39,7 @@ class submodule{
 
 			$cfg['comments_on_page']		= (intval(@$_POST['comments_on_page']) < 1) ? 1 : intval(@$_POST['users_on_page']);
 
-			if(!$this->config->savecfg($cfg, 'modules/users.php', 'cfg')){ $this->core->notify($this->core->lng["e_msg"], $this->core->lng_m['set_e_cfg_save'], 2, '?mode=admin&do=settings'); }
+			if(!$this->cfg->savecfg($cfg, 'modules/users.php', 'cfg')){ $this->core->notify($this->core->lng["e_msg"], $this->core->lng_m['set_e_cfg_save'], 2, '?mode=admin&do=settings'); }
 
 			// Последнее обновление пользователя
 			$this->db->update_user($this->user);
@@ -59,11 +56,6 @@ class submodule{
 		);
 
 		return $this->core->sp(MCR_THEME_MOD."admin/us/main.html", $data);
-	}
-
-	public function content(){
-
-		return $this->main();
 	}
 }
 

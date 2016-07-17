@@ -3,13 +3,13 @@
 if(!defined("MCR")){ exit("Hacking Attempt!"); }
 
 class module{
-	private $core, $db, $config, $lng, $lng_m, $user;
+	private $core, $db, $cfg, $lng, $lng_m, $user;
 
 	public function __construct($core){
 		$this->core		= $core;
 		$this->db		= $core->db;
 		$this->user		= $core->user;
-		$this->config	= $core->config;
+		$this->cfg		= $core->cfg;
 		$this->lng		= $core->lng;
 		$this->lng_m	= $core->lng_m;
 
@@ -33,7 +33,7 @@ class module{
 			$this->core->cfg_m['users_on_page'] = (intval(@$_POST['rop_users'])<1) ? 1 : intval(@$_POST['rop_users']);
 			$this->core->cfg_m['comments_on_page'] = (intval(@$_POST['rop_comments'])<1) ? 1 : intval(@$_POST['rop_comments']);
 
-			if(!$this->config->savecfg($this->core->cfg_m, 'modules/users.php', 'cfg')){
+			if(!$this->cfg->savecfg($this->core->cfg_m, 'modules/users.php', 'cfg')){
 				$this->core->notify($this->lng['e_msg'], $this->lng_m['e_settings'], 2, '?mode=step_2');
 			}
 

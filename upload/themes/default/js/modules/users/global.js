@@ -6,7 +6,7 @@ $(function(){
 
 		source: function(query, process){
 			$.ajax({
-				url: "?mode=ajax&do=users&act=typeahead",
+				url: "?mode=ajax&do=modules|users|typeahead",
 				dataType: "json",
 				type: 'GET',
 				async: true,
@@ -51,7 +51,7 @@ $(function(){
 		formdata.append('mcr_secure', mcr.meta_data.secure);
 
 		$.ajax({
-			url: "index.php?mode=ajax&do=users&act=add_comment",
+			url: "?mode=ajax&do=modules|users|add_comment",
 			dataType: "json",
 			type: 'POST',
 			contentType: false,
@@ -68,7 +68,9 @@ $(function(){
 
 				$(data._data).hide().prependTo('.mod-users-comments').fadeIn('normal');
 
-				mcr.notify(data._title, data._message);
+				$('textarea[name="message"]').val('');
+
+				mcr.notify(data._title, data._message, 3);
 			}
 		});
 
@@ -91,7 +93,7 @@ $(function(){
 		formdata.append('mcr_secure', mcr.meta_data.secure);
 
 		$.ajax({
-			url: "index.php?mode=ajax&do=users&act=del_comment",
+			url: "?mode=ajax&do=modules|users|del_comment",
 			dataType: "json",
 			type: 'POST',
 			contentType: false,

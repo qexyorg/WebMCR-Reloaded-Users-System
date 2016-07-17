@@ -6,7 +6,7 @@ $cfg = array (
   'MOD_AUTHOR' => 'Qexy',
   'MOD_SITE' => 'http://qexy.org',
   'MOD_EMAIL' => 'admin@qexy.org',
-  'MOD_VERSION' => '1.0a',
+  'MOD_VERSION' => '1.1',
   'MOD_URL_UPDATE' => 'http://update.webmcr.com/?do=modules&op=users',
   'MOD_CHECK_UPDATE' => true,
   'install' => true,

@@ -3,13 +3,13 @@
 if(!defined("MCR")){ exit("Hacking Attempt!"); }
 
 class module{
-	private $core, $db, $config, $lng, $lng_m, $user;
+	private $core, $db, $cfg, $lng, $lng_m, $user;
 
 	public function __construct($core){
 		$this->core		= $core;
 		$this->db		= $core->db;
 		$this->user		= $core->user;
-		$this->config	= $core->config;
+		$this->cfg		= $core->cfg;
 		$this->lng		= $core->lng;
 		$this->lng_m	= $core->lng_m;
 
@@ -26,6 +26,9 @@ class module{
 	public function content(){
 		if(!isset($_SESSION['step_2'])){ $this->core->notify('', '', 4, '?mode=step_2'); }
 		if(isset($_SESSION['step_3'])){ $this->core->notify('', '', 4, '?mode=finish'); }
+
+		$ctables	= $this->core->cfg->db['tables'];
+		$ug_f		= $ctables['ugroups']['fields'];
 
 		$url = BASE_URL;
 
@@ -77,14 +80,14 @@ class module{
 
 			$groups = array();
 
-			$query = $this->db->query("SELECT id, permissions FROM `mcr_groups`");
+			$query = $this->db->query("SELECT `{$ug_f['id']}`, `{$ug_f['perm']}` FROM `{$this->core->cfg->tabname('ugroups')}`");
 
 			if(!$query || $this->db->num_rows($query)<=0){ $this->core->notify($this->lng['e_msg'], $this->lng['e_msg'], 2, '?mode=step_3'); }
 
 			while($ar = $this->db->fetch_assoc($query)){
 				$groups[] = array(
-					'id' => intval($ar['id']),
-					'permissions' => json_decode($ar['permissions'], true),
+					'id' => intval($ar[$ug_f['id']]),
+					'permissions' => json_decode($ar[$ug_f['perm']], true),
 				);
 			}
 
@@ -104,12 +107,12 @@ class module{
 
 				$newperm = $this->db->safesql($newperm);
 
-				$this->db->query("UPDATE `mcr_groups` SET permissions='$newperm' WHERE id='$gid'");
+				$this->db->query("UPDATE `{$this->core->cfg->tabname('ugroups')}` SET `{$ug_f['perm']}`='$newperm' WHERE id='$gid'");
 			}
 
 			$this->core->cfg_m['install'] = false;
 
-			if(!$this->config->savecfg($this->core->cfg_m, 'modules/users.php', 'cfg')){
+			if(!$this->cfg->savecfg($this->core->cfg_m, 'modules/users.php', 'cfg')){
 				$this->core->notify($this->lng['e_msg'], $this->lng_m['e_settings'], 2, '?mode=step_3');
 			}
 

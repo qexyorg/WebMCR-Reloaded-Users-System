@@ -4,7 +4,7 @@ define('MCR', '');
 
 require_once("../system.php");
 
-require_once(MCR_ROOT."install_us/language/".$core->config->main['s_lang']."/install.php");
+require_once(MCR_ROOT."install_us/language/".$core->cfg->main['s_lang']."/install.php");
 
 $core->lng_m = $lng;
 
@@ -63,7 +63,7 @@ function load_left_block($core, $mode){
 
 	$data['ITEMS'] = ob_get_clean();
 
-	include(MCR_SIDE_PATH."1_notify.php");
+	include(MCR_SIDE_PATH."notify.php");
 
 	require_once(MCR_LANG_DIR.'blocks/notify.php');
 	$core->lng_b = $lng;
@@ -79,7 +79,7 @@ $data_global = array(
 	"L_BLOCKS"		=> load_left_block($core, $mode),
 	"HEADER"		=> $core->header,
 	"DEF_HEADER"	=> $core->def_header,
-	"CFG"			=> $core->config->main,
+	"CFG"			=> $core->cfg->main,
 	"ADVICE"		=> '',//$core->advice(),
 	"MENU"			=> '',//$core->menu->_list(),
 	"BREADCRUMBS"	=> $core->bc,
