@@ -41,7 +41,8 @@ class module{
 			}
 		}
 
-		$query = $this->db->query("SELECT `u`.`{$us_f['group']}`, `u`.`{$us_f['color']}`, `u`.`{$us_f['login']}`, `u`.`{$us_f['is_skin']}`, `u`.`{$us_f['is_cloak']}`, `u`.`{$us_f['data']}`,
+		$query = $this->db->query("SELECT `u`.`{$us_f['group']}`, `u`.`{$us_f['color']}`, `u`.`{$us_f['login']}`, `u`.`{$us_f['is_skin']}`,
+											`u`.`{$us_f['is_cloak']}`, `u`.`{$us_f['date_reg']}`, `u`.`{$us_f['gender']}`,
 											`g`.`{$ug_f['title']}` AS `group`, `g`.`{$ug_f['color']}` AS `gcolor`
 									FROM `{$this->core->cfg->tabname('users')}` AS `u`
 									LEFT JOIN `{$this->core->cfg->tabname('ugroups')}` AS `g`
@@ -63,13 +64,11 @@ class module{
 			$login = $this->db->HSC($ar[$us_f['login']]);
 			$group = $this->db->HSC($ar['group']);
 
-			$json = json_decode($ar[$us_f['data']], true);
+			$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', $ar[$us_f['date_reg']]);
 
-			$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', @$json['time_create']);
+			$gender = (intval($ar[$us_f['gender']])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
 
-			$gender = (intval($json['gender'])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
-
-			$is_girl = (intval($json['gender'])==1) ? 'default_mini_female.png' : 'default_mini.png';
+			$is_girl = (intval($ar[$us_f['gender']])==1) ? 'default_mini_female.png' : 'default_mini.png';
 
 			$avatar = (intval($ar[$us_f['is_skin']])==1) ? $login.'_mini.png' : $is_girl;
 
@@ -147,7 +146,8 @@ class module{
 
 		$login = $this->db->safesql($_GET['uid']);
 
-		$query = $this->db->query("SELECT `u`.`{$us_f['id']}`, `u`.`{$us_f['group']}`, `u`.`{$us_f['color']}`, `u`.`{$us_f['login']}`, `u`.`{$us_f['is_skin']}`, `u`.`{$us_f['is_cloak']}`, `u`.`{$us_f['data']}`,
+		$query = $this->db->query("SELECT `u`.`{$us_f['id']}`, `u`.`{$us_f['group']}`, `u`.`{$us_f['color']}`, `u`.`{$us_f['login']}`, `u`.`{$us_f['is_skin']}`,
+											`u`.`{$us_f['is_cloak']}`, `u`.`{$us_f['date_reg']}`, `u`.`{$us_f['date_last']}`, `u`.`{$us_f['gender']}`,
 											`g`.`{$ug_f['title']}` AS `group`, `g`.`{$ug_f['color']}` AS `gcolor`,
 											`i`.`{$ui_f['money']}`, `i`.`{$ui_f['rm']}`
 									FROM `{$this->core->cfg->tabname('users')}` AS `u`
@@ -161,22 +161,20 @@ class module{
 
 		$ar = $this->db->fetch_assoc($query);
 
-		$json = json_decode($ar[$us_f['data']], true);
-
 		$color = (!empty($ar[$us_f['color']])) ? $this->db->HSC($ar[$us_f['color']]) : $this->db->HSC($ar['gcolor']);
 
 		$gcolor = $this->db->HSC($ar['gcolor']);
 		$group = $this->db->HSC($ar['group']);
 
-		$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', @$json['time_create']);
-		$date_last = date('d.m.Y '.$this->lng['in'].' H:i', @$json['time_last']);
+		$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', @$ar[$us_f['date_reg']]);
+		$date_last = date('d.m.Y '.$this->lng['in'].' H:i', @$ar[$us_f['date_last']]);
 
 		$is_skin = (intval($ar[$us_f['is_skin']])==1) ? true : false;
 		$is_cloak = (intval($ar[$us_f['is_cloak']])==1) ? true : false;
 
-		$gender = (intval($json['gender'])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
+		$gender = (intval($ar[$us_f['gender']])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
 
-		$is_girl = (intval($json['gender'])==1) ? 'default_female' : 'default';
+		$is_girl = (intval($ar[$us_f['gender']])==1) ? 'default_female' : 'default';
 
 		$avatar = ($is_skin || $is_cloak) ? $this->db->HSC($login) : $is_girl;
 
@@ -204,7 +202,9 @@ class module{
 		$ug_f		= $ctables['ugroups']['fields'];
 		$us_f		= $ctables['users']['fields'];
 
-		$query = $this->db->query("SELECT `c`.id, `c`.`from`, `c`.text_html, `c`.`data`, `u`.`{$us_f['login']}`, `u`.`{$us_f['color']}`, `g`.`{$ug_f['color']}` AS `gcolor`
+		$query = $this->db->query("SELECT `c`.id, `c`.`from`, `c`.text_html, `c`.`data`,
+											`u`.`{$us_f['login']}`, `u`.`{$us_f['color']}`,
+											`g`.`{$ug_f['color']}` AS `gcolor`
 									FROM `mod_users_comments` AS `c`
 									LEFT JOIN `{$this->core->cfg->tabname('users')}` AS `u`
 										ON `u`.`{$us_f['id']}`=`c`.`from`
