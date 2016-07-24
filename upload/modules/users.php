@@ -64,7 +64,7 @@ class module{
 			$login = $this->db->HSC($ar[$us_f['login']]);
 			$group = $this->db->HSC($ar['group']);
 
-			$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', $ar[$us_f['date_reg']]);
+			$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', intval(@$ar[$us_f['date_reg']]));
 
 			$gender = (intval($ar[$us_f['gender']])==1) ? $this->core->lng['gender_w'] : $this->core->lng['gender_m'];
 
@@ -166,8 +166,8 @@ class module{
 		$gcolor = $this->db->HSC($ar['gcolor']);
 		$group = $this->db->HSC($ar['group']);
 
-		$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', @$ar[$us_f['date_reg']]);
-		$date_last = date('d.m.Y '.$this->lng['in'].' H:i', @$ar[$us_f['date_last']]);
+		$date_reg = date('d.m.Y '.$this->lng['in'].' H:i', intval(@$ar[$us_f['date_reg']]));
+		$date_last = date('d.m.Y '.$this->lng['in'].' H:i', intval(@$ar[$us_f['date_last']]));
 
 		$is_skin = (intval($ar[$us_f['is_skin']])==1) ? true : false;
 		$is_cloak = (intval($ar[$us_f['is_cloak']])==1) ? true : false;
