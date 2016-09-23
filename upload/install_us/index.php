@@ -4,6 +4,8 @@ define('MCR', '');
 
 require_once("../system.php");
 
+if(!$core->is_access('sys_adm_main')){ $core->notify($core->lng['403'], $core->lng['t_403'], 2, BASE_URL, true); }
+
 require_once(MCR_ROOT."install_us/language/".$core->cfg->main['s_lang']."/install.php");
 
 $core->lng_m = $lng;
