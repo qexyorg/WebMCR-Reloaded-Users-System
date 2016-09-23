@@ -1,30 +1,5 @@
 $(function(){
 
-	$('.search-user').typeahead({
-		items: 10,
-		minLength: 2,
-
-		source: function(query, process){
-			$.ajax({
-				url: "?mode=ajax&do=modules|users|typeahead",
-				dataType: "json",
-				type: 'GET',
-				async: true,
-				data: "query=" + query,
-
-				success: function(data){
-					if(!data._type){ return; }
-
-					process(data._data);
-				}
-			});
-		},
-
-		matcher: function (param){
-			return true
-		},
-	});
-
 	$('body').on('click', '.search-user-btn', function(){
 
 		var val = $('.search-user').val();
